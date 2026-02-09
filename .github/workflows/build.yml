@@ -1,0 +1,45 @@
+name: Build2 Data-Juicer CPU Docker for Offline (Manual)
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Release version (e.g., v1.0.0)'
+        required: true
+        default: 'v0.1.0'
+      notes:
+        description: 'Release notes'
+        required: false
+
+jobs:
+  build-cpu-image:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write  # 必须授权才能创建 release
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build CPU Docker image
+        run: |
+          docker build \
+            --platform linux/amd64 \
+            -t data-juicer-cpu:latest \
+            .
+
+      - name: Save image to tar
+        run: docker save data-juicer-cpu:latest -o data-juicer-cpu.tar
+
+      - name: Create GitHub Release and Upload Asset
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.version }}
+          name: Data-Juicer CPU Offline Package (${{ github.event.inputs.version }})
+          body: ${{ github.event.inputs.notes || 'Offline deployable Docker image (CPU-only, Ray-enabled).' }}
+          files: data-juicer-cpu.tar
+          draft: false
+          prerelease: false
