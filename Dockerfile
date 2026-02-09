@@ -12,7 +12,7 @@ WORKDIR /app
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
     PIP_INDEX_URL=https://pypi.tuna.tsinghua.edu.cn/simple \
-    DJ_AUTO_INSTALL=0  # ← 关键：禁止 Data-Juicer 在运行时自动安装 ray 等依赖
+    DJ_AUTO_INSTALL=0
 
 # 安装系统依赖（仅保留 Data-Juicer 核心算子必需的系统库）
 RUN apt-get update && apt-get install -y --no-install-recommends \
@@ -23,7 +23,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 # 安装 Python 依赖（使用官方 data-juicer 包，不包含 Ray 执行逻辑）
-# 注意：data-juicer 会声明 ray 为可选依赖，但 CLI 和多数 CPU 算子无需 ray
 RUN pip install --no-cache-dir \
     data-juicer>=1.4.0 \
     pandas>=2.0.0 \
