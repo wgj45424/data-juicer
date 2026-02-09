@@ -1,9 +1,7 @@
 name: Build Data-Juicer Docker for Offline Use
 
 on:
-  workflow_dispatch:  # 允许手动触发
-  push:
-    branches: [ main ]
+  workflow_dispatch:  # 👈 仅允许手动触发
 
 jobs:
   build-and-save:
