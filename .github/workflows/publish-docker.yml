@@ -5,10 +5,6 @@ name: Publish Docker Image
 # separate terms of service, privacy policy, and support
 # documentation.
 
-on:
-  workflow_dispatch:
- // release:
-   // types: [published]
 
 env:
   IMAGE_NAME: datajuicer/data-juicer
