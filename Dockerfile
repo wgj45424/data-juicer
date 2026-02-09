@@ -41,7 +41,7 @@ RUN pip install --no-cache-dir \
 RUN python -c "import data_juicer; print('Data-Juicer installed:', data_juicer.__version__)"
 
 # 配置环境变量：确保dj命令生效
-ENV PATH="/app:${PATH}"
+# ENV PATH="/app:${PATH}"
 
 # 容器启动默认进入bash
 CMD ["/bin/bash"]
