@@ -1,12 +1,28 @@
-- name: Build Docker image
-  run: |
-    docker build . --tag data-juicer:latest
+name: Build Data-Juicer Docker for Offline Use
 
-- name: Save image as tar
-  run: docker save data-juicer:latest -o data-juicer.tar
+on:
+  workflow_dispatch:  # 允许手动触发
+  push:
+    branches: [ main ]
 
-- name: Upload artifact
-  uses: actions/upload-artifact@v4
-  with:
-    name: data-juicer-docker-offline
-    path: data-juicer.tar
+jobs:
+  build-and-save:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: |
+          docker build . --tag data-juicer:latest
+
+      - name: Save image as tar
+        run: docker save data-juicer:latest -o data-juicer.tar
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: data-juicer-docker-offline
+          path: data-juicer.tar
+          retention-days: 7
