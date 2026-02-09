@@ -10,16 +10,20 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
     PIP_INDEX_URL=https://pypi.tuna.tsinghua.edu.cn/simple \
     DJ_AUTO_INSTALL=0
 
-# 安装系统依赖（含 git 和编译工具）
+# 安装系统依赖（关键：包含 libsamplerate-dev 和 git）
 RUN apt-get update && apt-get install -y --no-install-recommends \
     gcc \
     g++ \
+    git \
     libgomp1 \
     python3-dev \
     pkg-config \
-    git \
+    libsamplerate0-dev \          # ← 关键：解决 samplerate 编译问题
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
+
+# 升级构建工具（推荐）
+RUN pip install --upgrade pip setuptools wheel
 
 # 从 GitHub 安装 Data-Juicer（使用已知稳定 tag）
 # 查看 tags: https://github.com/alibaba/data-juicer/tags
