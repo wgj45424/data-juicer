@@ -4,10 +4,6 @@
 name: performance_benchmark
 
 on:
-  workflow_dispatch:
-  push:
-    branches:
-      - main
 
 permissions:
   contents: read
