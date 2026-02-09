@@ -24,7 +24,5 @@ RUN uv pip install --no-cache-dir \
     --system \
     -e .[core]
 
-# 下载 NLTK 数据（按需）
-RUN python -c "import nltk; nltk.download('punkt', quiet=True); nltk.download('averaged_perceptron_tagger', quiet=True)"
 
 CMD ["python", "-m", "data_juicer.run", "--help"]
