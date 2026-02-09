@@ -1,0 +1,12 @@
+- name: Build Docker image
+  run: |
+    docker build . --tag data-juicer:latest
+
+- name: Save image as tar
+  run: docker save data-juicer:latest -o data-juicer.tar
+
+- name: Upload artifact
+  uses: actions/upload-artifact@v4
+  with:
+    name: data-juicer-docker-offline
+    path: data-juicer.tar
